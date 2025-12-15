@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Bibliothèque</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-xl h-screen fixed overflow-y-auto lg:w-72">
+      <div class="p-6 border-b">
+        <div class="flex items-center space-x-3">
+          <div class="bg-primary text-white p-3 rounded-lg">
+            <i data-lucide="library" class="w-8 h-8"></i>
+          </div>
+          <h1 class="text-2xl font-bold">DASHBOARD</h1>
+        </div>
+      </div>
+      <nav class="mt-6">
+        <a href="/admin" class="flex items-center px-6 py-4 bg-primary/10 text-primary border-r-4 border-primary font-medium">
+          <i data-lucide="layout-dashboard" class="w-6 h-6 mr-3"></i> Tableau de bord
+        </a>
+        <a href="/" class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50">
+          <i data-lucide="home" class="w-6 h-6 mr-3"></i> Voir le site
+        </a>
+        <a href="/admin/logout" class="flex items-center px-6 py-4 text-red-600 hover:bg-red-50">
+          <i data-lucide="log-out" class="w-6 h-6 mr-3"></i> Déconnexion
+        </a>
+      </nav>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="ml-64 p-8 lg:ml-72 flex-1">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="mb-8">
+            {% for category, message in messages %}
+              <div class="bg-{{ 'green' if category == 'success' else 'red' }}-100 border-{{ 'green' if category == 'success' else 'red' }}-400 text-{{ 'green' if category == 'success' else 'red' }}-700 px-6 py-4 rounded-lg font-medium">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <h2 class="text-4xl font-bold text-gray-900 mb-10">Tableau de bord administrateur</h2>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-lg">Contenus</p>
+              <p class="text-5xl font-bold text-primary">{{ resources|length }}</p>
+            </div>
+            <i data-lucide="files" class="w-16 h-16 text-primary opacity-70"></i>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-lg">Catégories</p>
+              <p class="text-5xl font-bold text-green-600">{{ categories|length }}</p>
+            </div>
+            <i data-lucide="folders" class="w-16 h-16 text-green-600 opacity-70"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ajouter catégorie + contenu -->
+      <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
+
+          <!-- GRID parent : 25% / 75% -->
+          <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+
+              <!-- Nouvelle catégorie (1/4 largeur) -->
+              <div class="lg:col-span-1">
+                  <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                      <i data-lucide="folder-plus" class="w-8 h-8 text-primary"></i>
+                      Catégorie
+                  </h3>
+
+                  <form method="POST" action="/admin"
+                        class="flex flex-col gap-4">
+                      <input type="hidden" name="action" value="create_category">
+
+                      <input type="text" name="new_category"
+                          placeholder="Ex: Mathématiques, Vidéo..."
+                          required
+                          class="px-5 py-4 border rounded-xl w-full
+                                focus:outline-none focus:ring-4 focus:ring-primary/30">
+
+                      <button type="submit"
+                          class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 
+                                rounded-xl font-bold transition flex items-center justify-center gap-2">
+                          <i data-lucide="plus" class="w-6 h-6"></i> Ajouter
+                      </button>
+                  </form>
+              </div>
+
+              <!-- Publier un contenu (3/4 largeur) -->
+              <div class="lg:col-span-3">
+                  <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                      <i data-lucide="upload-cloud" class="w-8 h-8 text-primary"></i>
+                      Publier un contenu
+                  </h3>
+
+                  <form method="POST" enctype="multipart/form-data" action="/admin" class="space-y-5">
+                      <input type="hidden" name="action" value="upload_resource">
+
+                      <input type="text" name="title" placeholder="Titre du contenu" required
+                          class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4">
+
+                      <textarea name="description" placeholder="Description (facultatif)" rows="2"
+                          class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4"></textarea>
+
+                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                          <select name="category" required
+                              class="px-3 py-2 border rounded-lg text-base focus:ring-4 focus:ring-primary/30">
+                              <option value="">Choisir catégorie</option>
+                              {% for cat in categories %}
+                                  <option value="{{ cat.id }}">{{ cat.name }}</option>
+                              {% endfor %}
+                          </select>
+
+                          <input type="file" name="file" required
+                              class="px-3 py-2 border rounded-lg text-base
+                                    file:bg-primary file:text-white file:font-bold
+                                    file:px-3 file:py-1.5 file:rounded-md">
+                      </div>
+
+
+                      <button type="submit"
+                          class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl 
+                                font-bold text-xl transition flex items-center justify-center gap-3 shadow-lg">
+                          <i data-lucide="upload" class="w-7 h-7"></i>
+                          Ajouter maintenant
+                      </button>
+                  </form>
+              </div>
+
+          </div>
+      </div>
+
+
+      <!-- Filtre par type + Liste des contenus -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="p-8 border-b bg-gradient-to-r from-primary/5 to-purple-500/5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <h3 class="text-2xl font-bold">Tous les contenus ({{ resources|length }})</h3>
+          
+          <!-- Filtre par type -->
+          <div class="flex gap-3">
+            <a href="/admin?type=" class="px-6 py-3 rounded-lg font-medium {% if not request.args.get('type') %}bg-primary text-white{% else %}bg-gray-200 text-gray-700{% endif %}">Tous</a>
+            <a href="/admin?type=pdf" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'pdf' %}bg-red-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
+              <i data-lucide="file-pdf" class="w-5 h-5"></i> PDF
+            </a>
+            <a href="/admin?type=image" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'image' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
+              <i data-lucide="image" class="w-5 h-5"></i> Images
+            </a>
+            <a href="/admin?type=video" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'video' %}bg-purple-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
+              <i data-lucide="video" class="w-5 h-5"></i> Vidéos
+            </a>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-8 py-5 text-left">Type</th>
+                <th class="px-8 py-5 text-left">Titre</th>
+                <th class="px-8 py-5 text-left">Catégorie</th>
+                <th class="px-8 py-5 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y">
+  {% for r in resources %}
+  <tr class="hover:bg-gray-50 transition">
+    <td class="px-8 py-6">
+      {% if r.file_type == 'pdf' %}
+        <i data-lucide="file-pdf" class="w-8 h-8 text-red-600"></i>
+      {% elif r.file_type == 'image' %}
+        <i data-lucide="image" class="w-8 h-8 text-blue-600"></i>
+      {% elif r.file_type == 'video' %}
+        <i data-lucide="video" class="w-8 h-8 text-purple-600"></i>
+      {% else %}
+        <i data-lucide="file-text" class="w-8 h-8 text-gray-600"></i>
+      {% endif %}
+    </td>
+    <td class="px-8 py-6 font-medium text-lg">{{ r.title }}</td>
+    <td class="px-8 py-6">
+      <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">{{ r.category.name }}</span>
+    </td>
+    <td class="px-10 py-6 space-x-4">
+      <a href="{{ url_for('download', resource_id=r.id) }}" class="text-primary font-bold hover:underline">Télécharger</a>
+      <form method="POST" action="/admin/delete/{{ r.id }}" style="display:inline;" onsubmit="return confirm('Supprimer définitivement ?');">
+        <button type="submit" class="text-red-600 font-bold hover:underline">Supprimer</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+
+</body>
+</html>

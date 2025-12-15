@@ -1,0 +1,36 @@
+[2025-12-14 19:06:52 +0000] [3435] [INFO] Starting gunicorn 23.0.0
+[2025-12-14 19:06:52 +0000] [3435] [INFO] Listening at: http://127.0.0.1:5000 (3435)
+[2025-12-14 19:06:52 +0000] [3435] [INFO] Using worker: sync
+[2025-12-14 19:06:52 +0000] [3437] [INFO] Booting worker with pid: 3437
+[2025-12-14 19:06:52 +0000] [3438] [INFO] Booting worker with pid: 3438
+[2025-12-14 19:07:52 +0000] [3435] [INFO] Handling signal: term
+[2025-12-14 19:07:52 +0000] [3437] [INFO] Worker exiting (pid: 3437)
+[2025-12-14 19:07:52 +0000] [3438] [INFO] Worker exiting (pid: 3438)
+[2025-12-14 19:07:52 +0000] [3435] [INFO] Shutting down: Master
+[2025-12-14 19:08:51 +0000] [3494] [INFO] Starting gunicorn 23.0.0
+[2025-12-14 19:08:51 +0000] [3494] [INFO] Listening at: http://127.0.0.1:5000 (3494)
+[2025-12-14 19:08:51 +0000] [3494] [INFO] Using worker: sync
+[2025-12-14 19:08:51 +0000] [3497] [INFO] Booting worker with pid: 3497
+[2025-12-14 19:08:51 +0000] [3498] [INFO] Booting worker with pid: 3498
+[2025-12-14 19:10:39 +0000] [3497] [INFO] Worker exiting (pid: 3497)
+[2025-12-14 19:10:39 +0000] [3494] [INFO] Handling signal: term
+[2025-12-14 19:10:39 +0000] [3498] [INFO] Worker exiting (pid: 3498)
+[2025-12-14 19:10:39 +0000] [3494] [INFO] Shutting down: Master
+[2025-12-14 19:10:41 +0000] [3565] [INFO] Starting gunicorn 23.0.0
+[2025-12-14 19:10:41 +0000] [3565] [INFO] Listening at: http://127.0.0.1:5000 (3565)
+[2025-12-14 19:10:41 +0000] [3565] [INFO] Using worker: sync
+[2025-12-14 19:10:41 +0000] [3567] [INFO] Booting worker with pid: 3567
+[2025-12-14 19:10:41 +0000] [3568] [INFO] Booting worker with pid: 3568
+[2025-12-14 20:18:15 +0000] [3567] [INFO] Worker exiting (pid: 3567)
+[2025-12-14 20:18:15 +0000] [3565] [INFO] Handling signal: term
+[2025-12-14 20:18:15 +0000] [3568] [INFO] Worker exiting (pid: 3568)
+[2025-12-14 20:18:16 +0000] [3565] [INFO] Shutting down: Master
+[2025-12-14 20:18:27 +0000] [488] [INFO] Starting gunicorn 23.0.0
+[2025-12-14 20:18:27 +0000] [488] [INFO] Listening at: http://127.0.0.1:5000 (488)
+[2025-12-14 20:18:27 +0000] [488] [INFO] Using worker: sync
+[2025-12-14 20:18:27 +0000] [543] [INFO] Booting worker with pid: 543
+[2025-12-14 20:18:27 +0000] [544] [INFO] Booting worker with pid: 544
+[2025-12-14 20:23:33 +0000] [543] [INFO] Worker exiting (pid: 543)
+[2025-12-14 20:23:33 +0000] [488] [INFO] Handling signal: term
+[2025-12-14 20:23:33 +0000] [544] [INFO] Worker exiting (pid: 544)
+[2025-12-14 20:23:34 +0000] [488] [INFO] Shutting down: Master

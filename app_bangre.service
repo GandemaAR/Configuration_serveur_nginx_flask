@@ -1,0 +1,15 @@
+[Unit]
+Description=Application Gestion Fichiers Flask
+After=network.target
+
+[Service]
+Type=simple
+User=dietpi
+WorkingDirectory=/home/dietpi/bangre
+Environment="PATH=/home/dietpi/bangre/venv/bin"
+ExecStart=/home/dietpi/bangre/venv/bin/gunicorn --bind 127.0.0.1:5000 --workers 2 --access-logfile /home/dietpi/logs/gunicorn_access.log --error-logfile /home/dietpi/logs/gunicorn_error.log --log-level info app:app
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
