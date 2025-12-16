@@ -26,8 +26,30 @@ AUTO_SETUP_TIMEZONE=UTC
 # Enable Ethernet or WiFi adapter: 1=enable | 0=disable
 # - If both Ethernet and WiFi are enabled, WiFi will take priority and Ethernet will be disabled.
 # - If using WiFi, please edit dietpi-wifi.txt to pre-enter credentials.
-AUTO_SETUP_NET_ETHERNET_ENABLED=0
-AUTO_SETUP_NET_WIFI_ENABLED=1
+# 1. Activer Ethernet avec DHCP (par défaut)
+AUTO_SETUP_NET_ETHERNET_ENABLED=1
+# === CONFIGURATION ETHERNET (IP FIXE) ===
+AUTO_SETUP_NET_ETHERNET_STATIC_IP_ENABLED=1
+AUTO_SETUP_NET_ETHERNET_STATIC_IP_ADDRESS=192.168.1.100
+AUTO_SETUP_NET_ETHERNET_STATIC_IP_NETMASK=255.255.255.0
+AUTO_SETUP_NET_ETHERNET_STATIC_IP_GATEWAY=192.168.1.1
+AUTO_SETUP_NET_ETHERNET_STATIC_IP_DNS=192.168.1.1 8.8.8.8
+
+
+# 2. Activer le Wi-Fi ET le hotspot
+AUTO_SETUP_NET_WIFI_ENABLED=1	#Activation pour créer un HOTSPOT
+AUTO_SETUP_NET_WIFI_HOTSPOT_ENABLED=1
+AUTO_SETUP_NET_WIFI_HOTSPOT_SSID=BangreBox
+AUTO_SETUP_NET_WIFI_HOTSPOT_PASSWORD=bangre1234
+
+# 3. IMPORTANT : NE PAS configurer de connexion Wi-Fi client
+# Laissez ces lignes VIDE ou commentées :
+AUTO_SETUP_NET_WIFI_SSID=
+AUTO_SETUP_NET_WIFI_KEY=
+
+# === PARTAGE DE CONNEXION (NAT) ===
+AUTO_SETUP_NET_WIFI_HOTSPOT_INTERNET_SHARE_ENABLED=1
+
 
 # WiFi country code: 2 capital letter value (e.g. GB US DE JP): https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 # - NB: This choice may be overridden if the WiFi access point sends a country code.
