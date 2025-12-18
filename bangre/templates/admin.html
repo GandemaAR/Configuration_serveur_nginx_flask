@@ -4,41 +4,823 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Bibliothèque</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+      min-height: 100vh;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    button, input, textarea, select {
+      font-family: inherit;
+      font-size: inherit;
+    }
+    
+    /* ===== LAYOUT FLEX ===== */
+    .flex {
+      display: flex;
+    }
+    
+    .flex-col {
+      flex-direction: column;
+    }
+    
+    .items-center {
+      align-items: center;
+    }
+    
+    .justify-between {
+      justify-content: space-between;
+    }
+    
+    .flex-1 {
+      flex: 1;
+    }
+    
+    .space-x-3 > * + * {
+      margin-left: 0.75rem;
+    }
+    
+    .space-x-4 > * + * {
+      margin-left: 1rem;
+    }
+    
+    .gap-2 {
+      gap: 0.5rem;
+    }
+    
+    .gap-3 {
+      gap: 0.75rem;
+    }
+    
+    .gap-4 {
+      gap: 1rem;
+    }
+    
+    .gap-8 {
+      gap: 2rem;
+    }
+    
+    .gap-12 {
+      gap: 3rem;
+    }
+    
+    /* ===== GRID ===== */
+    .grid {
+      display: grid;
+    }
+    
+    .grid-cols-1 {
+      grid-template-columns: 1fr;
+    }
+    
+    .lg\:grid-cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .lg\:col-span-1 {
+      grid-column: span 1;
+    }
+    
+    .lg\:col-span-3 {
+      grid-column: span 3;
+    }
+    
+    @media (min-width: 768px) {
+      .md\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .md\:flex-row {
+        flex-direction: row;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    /* ===== SPACING ===== */
+    .p-3 {
+      padding: 0.75rem;
+    }
+    
+    .p-6 {
+      padding: 1.5rem;
+    }
+    
+    .p-8 {
+      padding: 2rem;
+    }
+    
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .px-5 {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+    
+    .px-6 {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    
+    .px-8 {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    
+    .px-10 {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+    
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    
+    .py-4 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+    
+    .py-5 {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+    
+    .py-6 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+    
+    .mr-3 {
+      margin-right: 0.75rem;
+    }
+    
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+    
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+    
+    .mb-10 {
+      margin-bottom: 2.5rem;
+    }
+    
+    .mb-12 {
+      margin-bottom: 3rem;
+    }
+    
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+    
+    .ml-64 {
+      margin-left: 16rem;
+    }
+    
+    .ml-72 {
+      margin-left: 18rem;
+    }
+    
+    /* ===== SIZING ===== */
+    .w-5 {
+      width: 1.25rem;
+    }
+    
+    .w-6 {
+      width: 1.5rem;
+    }
+    
+    .w-7 {
+      width: 1.75rem;
+    }
+    
+    .w-8 {
+      width: 2rem;
+    }
+    
+    .w-16 {
+      width: 4rem;
+    }
+    
+    .w-64 {
+      width: 16rem;
+    }
+    
+    .w-72 {
+      width: 18rem;
+    }
+    
+    .w-full {
+      width: 100%;
+    }
+    
+    .h-5 {
+      height: 1.25rem;
+    }
+    
+    .h-6 {
+      height: 1.5rem;
+    }
+    
+    .h-7 {
+      height: 1.75rem;
+    }
+    
+    .h-8 {
+      height: 2rem;
+    }
+    
+    .h-16 {
+      height: 4rem;
+    }
+    
+    .h-screen {
+      height: 100vh;
+    }
+    
+    .min-h-screen {
+      min-height: 100vh;
+    }
+    
+    /* ===== TYPOGRAPHY ===== */
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    
+    .text-base {
+      font-size: 1rem;
+    }
+    
+    .text-lg {
+      font-size: 1.125rem;
+    }
+    
+    .text-xl {
+      font-size: 1.25rem;
+    }
+    
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+    
+    .text-4xl {
+      font-size: 2.25rem;
+    }
+    
+    .text-5xl {
+      font-size: 3rem;
+    }
+    
+    .font-medium {
+      font-weight: 500;
+    }
+    
+    .font-bold {
+      font-weight: 700;
+    }
+    
+    .text-left {
+      text-align: left;
+    }
+    
+    .truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    /* ===== COLORS ===== */
+    .bg-white {
+      background-color: #ffffff;
+    }
+    
+    .bg-gray-50 {
+      background-color: #f9fafb;
+    }
+    
+    .bg-gray-100 {
+      background-color: #f3f4f6;
+    }
+    
+    .bg-gray-200 {
+      background-color: #e5e7eb;
+    }
+    
+    .bg-red-50 {
+      background-color: #fef2f2;
+    }
+    
+    .bg-red-100 {
+      background-color: #fee2e2;
+    }
+    
+    .bg-red-600 {
+      background-color: #dc2626;
+    }
+    
+    .bg-green-100 {
+      background-color: #d1fae5;
+    }
+    
+    .bg-green-600 {
+      background-color: #16a34a;
+    }
+    
+    .bg-blue-600 {
+      background-color: #2563eb;
+    }
+    
+    .bg-purple-600 {
+      background-color: #9333ea;
+    }
+    
+    .bg-primary {
+      background-color: #6366f1;
+    }
+    
+    .bg-primary\/10 {
+      background-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .text-white {
+      color: #ffffff;
+    }
+    
+    .text-gray-500 {
+      color: #6b7280;
+    }
+    
+    .text-gray-600 {
+      color: #4b5563;
+    }
+    
+    .text-gray-700 {
+      color: #374151;
+    }
+    
+    .text-gray-900 {
+      color: #1f2937;
+    }
+    
+    .text-red-600 {
+      color: #dc2626;
+    }
+    
+    .text-red-700 {
+      color: #b91c1c;
+    }
+    
+    .text-green-600 {
+      color: #16a34a;
+    }
+    
+    .text-green-700 {
+      color: #047857;
+    }
+    
+    .text-blue-600 {
+      color: #2563eb;
+    }
+    
+    .text-purple-600 {
+      color: #9333ea;
+    }
+    
+    .text-primary {
+      color: #6366f1;
+    }
+    
+    .border-b {
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .border-r-4 {
+      border-right: 4px solid;
+    }
+    
+    .border {
+      border: 1px solid #e5e7eb;
+    }
+    
+    .border-primary {
+      border-color: #6366f1;
+    }
+    
+    .border-red-400 {
+      border-color: #f87171;
+    }
+    
+    .border-green-400 {
+      border-color: #34d399;
+    }
+    
+    /* ===== BORDERS & RADIUS ===== */
+    .rounded-lg {
+      border-radius: 0.5rem;
+    }
+    
+    .rounded-xl {
+      border-radius: 0.75rem;
+    }
+    
+    .rounded-2xl {
+      border-radius: 1rem;
+    }
+    
+    .rounded-full {
+      border-radius: 9999px;
+    }
+    
+    /* ===== SHADOWS ===== */
+    .shadow-xl {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* ===== EFFECTS ===== */
+    .opacity-70 {
+      opacity: 0.7;
+    }
+    
+    .hover\:bg-gray-50:hover {
+      background-color: #f9fafb;
+    }
+    
+    .hover\:bg-red-50:hover {
+      background-color: #fef2f2;
+    }
+    
+    .hover\:bg-green-700:hover {
+      background-color: #15803d;
+    }
+    
+    .hover\:underline:hover {
+      text-decoration: underline;
+    }
+    
+    .transition {
+      transition: all 0.2s ease;
+    }
+    
+    .hover\:bg-primary:hover {
+      background-color: #6366f1;
+    }
+    
+    .hover\:bg-indigo-700:hover {
+      background-color: #3730a3;
+    }
+    
+    /* ===== POSITION ===== */
+    .fixed {
+      position: fixed;
+    }
+    
+    .relative {
+      position: relative;
+    }
+    
+    .overflow-y-auto {
+      overflow-y: auto;
+    }
+    
+    .overflow-x-auto {
+      overflow-x: auto;
+    }
+    
+    .overflow-hidden {
+      overflow: hidden;
+    }
+    
+    /* ===== DIVIDE ===== */
+    .divide-y > * + * {
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    /* ===== BACKGROUND GRADIENTS ===== */
+    .bg-gradient-to-r {
+      background-image: linear-gradient(to right, var(--tw-gradient-stops));
+    }
+    
+    .from-primary\/5 {
+      --tw-gradient-from: rgba(99, 102, 241, 0.05);
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(99, 102, 241, 0));
+    }
+    
+    .to-purple-500\/5 {
+      --tw-gradient-to: rgba(168, 85, 247, 0.05);
+    }
+    
+    /* ===== FOCUS STATES ===== */
+    .focus\:outline-none:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+    
+    .focus\:ring-4:focus {
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    
+    .focus\:ring-primary\/30:focus {
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+    }
+    
+    /* ===== FILE INPUT STYLING ===== */
+    input[type="file"]::-webkit-file-upload-button {
+      background-color: #6366f1;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    input[type="file"]::file-selector-button {
+      background-color: #6366f1;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 16rem;
+      background-color: white;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      height: 100vh;
+      position: fixed;
+      overflow-y: auto;
+    }
+    
+    @media (min-width: 1024px) {
+      .sidebar {
+        width: 18rem;
+      }
+    }
+    
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      margin-left: 16rem;
+      padding: 2rem;
+      flex: 1;
+    }
+    
+    @media (min-width: 1024px) {
+      .main-content {
+        margin-left: 18rem;
+      }
+    }
+    
+    /* ===== ICONS (emojis) ===== */
+    .icon {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+      font-size: inherit;
+      display: inline-block;
+    }
+    
+    .icon-library::before { content: "📚"; }
+    .icon-layout-dashboard::before { content: "📊"; }
+    .icon-home::before { content: "🏠"; }
+    .icon-log-out::before { content: "🚪"; }
+    .icon-files::before { content: "📁"; }
+    .icon-folders::before { content: "📂"; }
+    .icon-folder-plus::before { content: "📁➕"; }
+    .icon-upload-cloud::before { content: "☁️⬆️"; }
+    .icon-plus::before { content: "➕"; }
+    .icon-upload::before { content: "⬆️"; }
+    .icon-file-pdf::before { content: "📄"; }
+    .icon-image::before { content: "🖼️"; }
+    .icon-video::before { content: "🎬"; }
+    .icon-file-text::before { content: "📝"; }
+    
+    /* Pour remplacer data-lucide */
+    [data-lucide]::before {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+      font-size: inherit;
+    }
+    
+    [data-lucide="library"]::before { content: "📚"; }
+    [data-lucide="layout-dashboard"]::before { content: "📊"; }
+    [data-lucide="home"]::before { content: "🏠"; }
+    [data-lucide="log-out"]::before { content: "🚪"; }
+    [data-lucide="files"]::before { content: "📁"; }
+    [data-lucide="folders"]::before { content: "📂"; }
+    [data-lucide="folder-plus"]::before { content: "📁➕"; }
+    [data-lucide="upload-cloud"]::before { content: "☁️⬆️"; }
+    [data-lucide="plus"]::before { content: "➕"; }
+    [data-lucide="upload"]::before { content: "⬆️"; }
+    [data-lucide="file-pdf"]::before { content: "📄"; }
+    [data-lucide="image"]::before { content: "🖼️"; }
+    [data-lucide="video"]::before { content: "🎬"; }
+    [data-lucide="file-text"]::before { content: "📝"; }
+    
+    /* ===== RESPONSIVE UTILITIES ===== */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      
+      .lg\:grid-cols-4 {
+        grid-template-columns: 1fr;
+      }
+      
+      .lg\:col-span-1,
+      .lg\:col-span-3 {
+        grid-column: span 1;
+      }
+      
+      .ml-64,
+      .ml-72 {
+        margin-left: 0;
+      }
+    }
+    
+    /* ===== TABLE STYLES ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 1.25rem 2rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    thead {
+      background-color: #f9fafb;
+    }
+    
+    tbody tr:hover {
+      background-color: #f9fafb;
+    }
+    
+    /* ===== FORMS ===== */
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3);
+    }
+    
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    /* ===== BUTTONS ===== */
+    button[type="submit"],
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background-color: #6366f1;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #4f46e5;
+    }
+    
+    .btn-success {
+      background-color: #16a34a;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background-color: #15803d;
+    }
+    
+    /* ===== FILTER BUTTONS ===== */
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .filter-btn.active {
+      background-color: #6366f1;
+      color: white;
+    }
+    
+    .filter-btn:not(.active) {
+      background-color: #e5e7eb;
+      color: #374151;
+    }
+    
+    /* ===== BADGES ===== */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 1rem;
+      background-color: rgba(99, 102, 241, 0.1);
+      color: #6366f1;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
   <div class="flex">
     <!-- Sidebar -->
-    <div class="w-64 bg-white shadow-xl h-screen fixed overflow-y-auto lg:w-72">
+    <div class="sidebar">
       <div class="p-6 border-b">
         <div class="flex items-center space-x-3">
           <div class="bg-primary text-white p-3 rounded-lg">
-            <i data-lucide="library" class="w-8 h-8"></i>
+            <span class="icon-library" style="font-size: 2rem;"></span>
           </div>
           <h1 class="text-2xl font-bold">DASHBOARD</h1>
         </div>
       </div>
       <nav class="mt-6">
         <a href="/admin" class="flex items-center px-6 py-4 bg-primary/10 text-primary border-r-4 border-primary font-medium">
-          <i data-lucide="layout-dashboard" class="w-6 h-6 mr-3"></i> Tableau de bord
+          <span class="icon-layout-dashboard"></span> Tableau de bord
         </a>
         <a href="/" class="flex items-center px-6 py-4 text-gray-700 hover:bg-gray-50">
-          <i data-lucide="home" class="w-6 h-6 mr-3"></i> Voir le site
+          <span class="icon-home"></span> Voir le site
         </a>
         <a href="/admin/logout" class="flex items-center px-6 py-4 text-red-600 hover:bg-red-50">
-          <i data-lucide="log-out" class="w-6 h-6 mr-3"></i> Déconnexion
+          <span class="icon-log-out"></span> Déconnexion
         </a>
       </nav>
     </div>
 
     <!-- Contenu principal -->
-    <div class="ml-64 p-8 lg:ml-72 flex-1">
+    <div class="main-content">
+      <!-- Messages flash -->
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <div class="mb-8">
             {% for category, message in messages %}
-              <div class="bg-{{ 'green' if category == 'success' else 'red' }}-100 border-{{ 'green' if category == 'success' else 'red' }}-400 text-{{ 'green' if category == 'success' else 'red' }}-700 px-6 py-4 rounded-lg font-medium">
+              <div class="flash-message {% if category == 'success' %}bg-green-100 border-green-400 text-green-700{% else %}bg-red-100 border-red-400 text-red-700{% endif %} px-6 py-4 rounded-lg font-medium">
                 {{ message }}
               </div>
             {% endfor %}
@@ -56,7 +838,7 @@
               <p class="text-gray-500 text-lg">Contenus</p>
               <p class="text-5xl font-bold text-primary">{{ resources|length }}</p>
             </div>
-            <i data-lucide="files" class="w-16 h-16 text-primary opacity-70"></i>
+            <span class="icon-files" style="font-size: 4rem; color: #6366f1; opacity: 0.7;"></span>
           </div>
         </div>
         <div class="bg-white p-8 rounded-2xl shadow-lg">
@@ -65,87 +847,75 @@
               <p class="text-gray-500 text-lg">Catégories</p>
               <p class="text-5xl font-bold text-green-600">{{ categories|length }}</p>
             </div>
-            <i data-lucide="folders" class="w-16 h-16 text-green-600 opacity-70"></i>
+            <span class="icon-folders" style="font-size: 4rem; color: #16a34a; opacity: 0.7;"></span>
           </div>
         </div>
       </div>
 
       <!-- Ajouter catégorie + contenu -->
       <div class="bg-white rounded-2xl shadow-xl p-8 mb-10">
+        <!-- GRID parent : 25% / 75% -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+          <!-- Nouvelle catégorie (1/4 largeur) -->
+          <div class="lg:col-span-1">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="icon-folder-plus" style="font-size: 2rem; color: #6366f1;"></span>
+              Catégorie
+            </h3>
 
-          <!-- GRID parent : 25% / 75% -->
-          <div class="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            <form method="POST" action="/admin" class="flex flex-col gap-4">
+              <input type="hidden" name="action" value="create_category">
 
-              <!-- Nouvelle catégorie (1/4 largeur) -->
-              <div class="lg:col-span-1">
-                  <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
-                      <i data-lucide="folder-plus" class="w-8 h-8 text-primary"></i>
-                      Catégorie
-                  </h3>
+              <input type="text" name="new_category"
+                placeholder="Ex: Mathématiques, Vidéo..."
+                required
+                class="px-5 py-4 border rounded-xl w-full focus:outline-none focus:ring-4 focus:ring-primary/30">
 
-                  <form method="POST" action="/admin"
-                        class="flex flex-col gap-4">
-                      <input type="hidden" name="action" value="create_category">
-
-                      <input type="text" name="new_category"
-                          placeholder="Ex: Mathématiques, Vidéo..."
-                          required
-                          class="px-5 py-4 border rounded-xl w-full
-                                focus:outline-none focus:ring-4 focus:ring-primary/30">
-
-                      <button type="submit"
-                          class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 
-                                rounded-xl font-bold transition flex items-center justify-center gap-2">
-                          <i data-lucide="plus" class="w-6 h-6"></i> Ajouter
-                      </button>
-                  </form>
-              </div>
-
-              <!-- Publier un contenu (3/4 largeur) -->
-              <div class="lg:col-span-3">
-                  <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
-                      <i data-lucide="upload-cloud" class="w-8 h-8 text-primary"></i>
-                      Publier un contenu
-                  </h3>
-
-                  <form method="POST" enctype="multipart/form-data" action="/admin" class="space-y-5">
-                      <input type="hidden" name="action" value="upload_resource">
-
-                      <input type="text" name="title" placeholder="Titre du contenu" required
-                          class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4">
-
-                      <textarea name="description" placeholder="Description (facultatif)" rows="2"
-                          class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4"></textarea>
-
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-
-                          <select name="category" required
-                              class="px-3 py-2 border rounded-lg text-base focus:ring-4 focus:ring-primary/30">
-                              <option value="">Choisir catégorie</option>
-                              {% for cat in categories %}
-                                  <option value="{{ cat.id }}">{{ cat.name }}</option>
-                              {% endfor %}
-                          </select>
-
-                          <input type="file" name="file" required
-                              class="px-3 py-2 border rounded-lg text-base
-                                    file:bg-primary file:text-white file:font-bold
-                                    file:px-3 file:py-1.5 file:rounded-md">
-                      </div>
-
-
-                      <button type="submit"
-                          class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl 
-                                font-bold text-xl transition flex items-center justify-center gap-3 shadow-lg">
-                          <i data-lucide="upload" class="w-7 h-7"></i>
-                          Ajouter maintenant
-                      </button>
-                  </form>
-              </div>
-
+              <button type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2">
+                <span class="icon-plus"></span> Ajouter
+              </button>
+            </form>
           </div>
-      </div>
 
+          <!-- Publier un contenu (3/4 largeur) -->
+          <div class="lg:col-span-3">
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="icon-upload-cloud" style="font-size: 2rem; color: #6366f1;"></span>
+              Publier un contenu
+            </h3>
+
+            <form method="POST" enctype="multipart/form-data" action="/admin" class="space-y-5">
+              <input type="hidden" name="action" value="upload_resource">
+
+              <input type="text" name="title" placeholder="Titre du contenu" required
+                class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4">
+
+              <textarea name="description" placeholder="Description (facultatif)" rows="2"
+                class="w-full px-5 py-4 border rounded-xl focus:ring-primary/30 focus:ring-4"></textarea>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <select name="category" required
+                  class="px-3 py-2 border rounded-lg text-base focus:ring-4 focus:ring-primary/30">
+                  <option value="">Choisir catégorie</option>
+                  {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                  {% endfor %}
+                </select>
+
+                <input type="file" name="file" required
+                  class="px-3 py-2 border rounded-lg text-base file:bg-primary file:text-white file:font-bold file:px-3 file:py-1.5 file:rounded-md">
+              </div>
+
+              <button type="submit"
+                class="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl font-bold text-xl transition flex items-center justify-center gap-3 shadow-lg">
+                <span class="icon-upload" style="font-size: 1.75rem;"></span>
+                Ajouter maintenant
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <!-- Filtre par type + Liste des contenus -->
       <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -154,21 +924,21 @@
           
           <!-- Filtre par type -->
           <div class="flex gap-3">
-            <a href="/admin?type=" class="px-6 py-3 rounded-lg font-medium {% if not request.args.get('type') %}bg-primary text-white{% else %}bg-gray-200 text-gray-700{% endif %}">Tous</a>
-            <a href="/admin?type=pdf" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'pdf' %}bg-red-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
-              <i data-lucide="file-pdf" class="w-5 h-5"></i> PDF
+            <a href="/admin?type=" class="filter-btn {% if not request.args.get('type') %}active{% endif %}">Tous</a>
+            <a href="/admin?type=pdf" class="filter-btn {% if request.args.get('type') == 'pdf' %}active{% endif %}">
+              <span class="icon-file-pdf"></span> PDF
             </a>
-            <a href="/admin?type=image" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'image' %}bg-blue-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
-              <i data-lucide="image" class="w-5 h-5"></i> Images
+            <a href="/admin?type=image" class="filter-btn {% if request.args.get('type') == 'image' %}active{% endif %}">
+              <span class="icon-image"></span> Images
             </a>
-            <a href="/admin?type=video" class="px-6 py-3 rounded-lg font-medium flex items-center gap-2 {% if request.args.get('type') == 'video' %}bg-purple-600 text-white{% else %}bg-gray-200 text-gray-700{% endif %}">
-              <i data-lucide="video" class="w-5 h-5"></i> Vidéos
+            <a href="/admin?type=video" class="filter-btn {% if request.args.get('type') == 'video' %}active{% endif %}">
+              <span class="icon-video"></span> Vidéos
             </a>
           </div>
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full">
+          <table>
             <thead class="bg-gray-50">
               <tr>
                 <th class="px-8 py-5 text-left">Type</th>
@@ -178,40 +948,87 @@
               </tr>
             </thead>
             <tbody class="divide-y">
-  {% for r in resources %}
-  <tr class="hover:bg-gray-50 transition">
-    <td class="px-8 py-6">
-      {% if r.file_type == 'pdf' %}
-        <i data-lucide="file-pdf" class="w-8 h-8 text-red-600"></i>
-      {% elif r.file_type == 'image' %}
-        <i data-lucide="image" class="w-8 h-8 text-blue-600"></i>
-      {% elif r.file_type == 'video' %}
-        <i data-lucide="video" class="w-8 h-8 text-purple-600"></i>
-      {% else %}
-        <i data-lucide="file-text" class="w-8 h-8 text-gray-600"></i>
-      {% endif %}
-    </td>
-    <td class="px-8 py-6 font-medium text-lg">{{ r.title }}</td>
-    <td class="px-8 py-6">
-      <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">{{ r.category.name }}</span>
-    </td>
-    <td class="px-10 py-6 space-x-4">
-      <a href="{{ url_for('download', resource_id=r.id) }}" class="text-primary font-bold hover:underline">Télécharger</a>
-      <form method="POST" action="/admin/delete/{{ r.id }}" style="display:inline;" onsubmit="return confirm('Supprimer définitivement ?');">
-        <button type="submit" class="text-red-600 font-bold hover:underline">Supprimer</button>
-      </form>
-    </td>
-  </tr>
-  {% endfor %}
-</tbody>
+              {% for r in resources %}
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-8 py-6">
+                  {% if r.file_type == 'pdf' %}
+                    <span class="icon-file-pdf" style="font-size: 2rem; color: #dc2626;"></span>
+                  {% elif r.file_type == 'image' %}
+                    <span class="icon-image" style="font-size: 2rem; color: #2563eb;"></span>
+                  {% elif r.file_type == 'video' %}
+                    <span class="icon-video" style="font-size: 2rem; color: #9333ea;"></span>
+                  {% else %}
+                    <span class="icon-file-text" style="font-size: 2rem; color: #4b5563;"></span>
+                  {% endif %}
+                </td>
+                <td class="px-8 py-6 font-medium text-lg">{{ r.title }}</td>
+                <td class="px-8 py-6">
+                  <span class="badge">{{ r.category.name }}</span>
+                </td>
+                <td class="px-10 py-6 space-x-4">
+                  <a href="{{ url_for('download', resource_id=r.id) }}" class="text-primary font-bold hover:underline">Télécharger</a>
+                  <form method="POST" action="/admin/delete/{{ r.id }}" style="display:inline;" onsubmit="return confirm('Supprimer définitivement ?');">
+                    <button type="submit" class="text-red-600 font-bold hover:underline">Supprimer</button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>lucide.createIcons();</script>
-
+  <script>
+    // JavaScript pour améliorer l'expérience
+    document.addEventListener('DOMContentLoaded', function() {
+      // Confirmation pour la suppression
+      const deleteForms = document.querySelectorAll('form[action*="delete"]');
+      deleteForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          if (!confirm('Êtes-vous sûr de vouloir supprimer définitivement ce contenu ?')) {
+            e.preventDefault();
+          }
+        });
+      });
+      
+      // Animation des statistiques
+      const statNumbers = document.querySelectorAll('.text-5xl.font-bold');
+      statNumbers.forEach(number => {
+        const target = parseInt(number.textContent);
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          number.textContent = Math.floor(current);
+        }, 20);
+      });
+      
+      // Gestion des fichiers uploadés
+      const fileInput = document.querySelector('input[type="file"]');
+      if (fileInput) {
+        fileInput.addEventListener('change', function() {
+          if (this.files.length > 0) {
+            const fileName = this.files[0].name;
+            console.log('Fichier sélectionné :', fileName);
+          }
+        });
+      }
+      
+      // Marquer la page active dans la sidebar
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

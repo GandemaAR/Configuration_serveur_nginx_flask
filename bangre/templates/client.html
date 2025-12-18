@@ -3,502 +3,499 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bibliothèque Numérique - Savoir Partagé</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#3B82F6',
-            secondary: '#10B981',
-            accent: '#8B5CF6',
-            dark: '#1F2937',
-            light: '#F9FAFB'
-          },
-          backgroundImage: {
-            'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-            'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-          },
-          animation: {
-            'float': 'float 6s ease-in-out infinite',
-            'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-            'slide-up': 'slide-up 0.5s ease-out',
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-20px)' },
-            },
-            'pulse-glow': {
-              '0%, 100%': { opacity: 1 },
-              '50%': { opacity: 0.7 },
-            },
-            'slide-up': {
-              '0%': { transform: 'translateY(20px)', opacity: 0 },
-              '100%': { transform: 'translateY(0)', opacity: 1 },
-            }
-          }
-        }
+  <title>Bibliothèque Numérique</title>
+  <style>
+    /* ===== TOUT LE CSS DE TAILWIND EN LOCAL ===== */
+    /* Reset et base */
+    *, ::before, ::after {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb;
+    }
+    
+    html, body {
+      height: 100%;
+    }
+    
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+      line-height: 1.5;
+    }
+    
+    /* Flexbox utilities */
+    .flex { display: flex; }
+    .inline-flex { display: inline-flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-wrap { flex-wrap: wrap; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    
+    /* Grid utilities */
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    
+    /* Responsive grid */
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    
+    /* Spacing */
+    .m-auto { margin: auto; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-10 { margin-bottom: 2.5rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    .mr-3 { margin-right: 0.75rem; }
+    
+    .p-4 { padding: 1rem; }
+    .p-8 { padding: 2rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-8 { padding-left: 2rem; padding-right: 2rem; }
+    .px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-5 { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+    .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+    .py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+    
+    /* Sizing */
+    .w-4 { width: 1rem; }
+    .w-5 { width: 1.25rem; }
+    .w-16 { width: 4rem; }
+    .w-24 { width: 6rem; }
+    .w-32 { width: 8rem; }
+    .w-full { width: 100%; }
+    .w-screen { width: 100vw; }
+    
+    .h-4 { height: 1rem; }
+    .h-5 { height: 1.25rem; }
+    .h-16 { height: 4rem; }
+    .h-24 { height: 6rem; }
+    .h-32 { height: 8rem; }
+    .h-full { height: 100%; }
+    .h-screen { height: 100vh; }
+    
+    .min-h-screen { min-height: 100vh; }
+    .max-w-3xl { max-width: 48rem; }
+    .max-w-7xl { max-width: 80rem; }
+    
+    /* Typography */
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+    .text-5xl { font-size: 3rem; line-height: 1; }
+    .text-6xl { font-size: 3.75rem; line-height: 1; }
+    
+    .font-bold { font-weight: 700; }
+    .font-medium { font-weight: 500; }
+    
+    .text-center { text-align: center; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    
+    /* Colors - Background */
+    .bg-white { background-color: #ffffff; }
+    .bg-gray-50 { background-color: #f9fafb; }
+    .bg-gray-100 { background-color: #f3f4f6; }
+    .bg-gray-300 { background-color: #d1d5db; }
+    .bg-indigo-600 { background-color: #4f46e5; }
+    .bg-purple-600 { background-color: #7c3aed; }
+    .bg-pink-600 { background-color: #db2777; }
+    .bg-primary { background-color: #6366f1; }
+    .bg-red-100 { background-color: #fee2e2; }
+    .bg-green-100 { background-color: #d1fae5; }
+    
+    .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+    .from-indigo-600 { --tw-gradient-from: #4f46e5; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(79, 70, 229, 0)); }
+    .via-purple-600 { --tw-gradient-stops: var(--tw-gradient-from), #7c3aed, var(--tw-gradient-to, rgba(124, 58, 237, 0)); }
+    .to-pink-600 { --tw-gradient-to: #db2777; }
+    
+    /* Colors - Text */
+    .text-white { color: #ffffff; }
+    .text-gray-300 { color: #d1d5db; }
+    .text-gray-500 { color: #6b7280; }
+    .text-gray-600 { color: #4b5563; }
+    .text-gray-700 { color: #374151; }
+    .text-primary { color: #6366f1; }
+    .text-red-700 { color: #b91c1c; }
+    .text-green-700 { color: #047857; }
+    
+    /* Borders */
+    .border { border-width: 1px; }
+    .border-2 { border-width: 2px; }
+    .border-primary { border-color: #6366f1; }
+    .border-red-400 { border-color: #f87171; }
+    .border-green-400 { border-color: #34d399; }
+    
+    .rounded { border-radius: 0.25rem; }
+    .rounded-full { border-radius: 9999px; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    
+    /* Effects */
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    
+    .opacity-40 { opacity: 0.4; }
+    .opacity-90 { opacity: 0.9; }
+    
+    /* Transforms */
+    .transform { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+    .hover\:scale-105:hover { --tw-scale-x: 1.05; --tw-scale-y: 1.05; }
+    .hover\:-translate-y-2:hover { --tw-translate-y: -0.5rem; }
+    
+    /* Transitions */
+    .transition { transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+    
+    /* Position */
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed { position: fixed; }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .top-0 { top: 0; }
+    .right-0 { right: 0; }
+    .bottom-0 { bottom: 0; }
+    .left-0 { left: 0; }
+    .top-4 { top: 1rem; }
+    .right-4 { right: 1rem; }
+    
+    /* Overflow */
+    .overflow-hidden { overflow: hidden; }
+    .overflow-x-auto { overflow-x: auto; }
+    
+    /* Display */
+    .block { display: block; }
+    .inline-block { display: inline-block; }
+    .hidden { display: none; }
+    
+    /* Other utilities */
+    .line-clamp-2 {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+    
+    .object-cover { object-fit: cover; }
+    
+    /* Custom grid pattern */
+    .bg-grid-white\/10 {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    .bg-gradient-to-t {
+      background-image: linear-gradient(to top, var(--tw-gradient-stops));
+    }
+    
+    .from-gray-50 { --tw-gradient-from: #f9fafb; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(249, 250, 251, 0)); }
+    .to-transparent { --tw-gradient-to: transparent; }
+    
+    .backdrop-blur-md {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    /* Icônes Lucide remplacées par CSS */
+    .icon::before {
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+      font-size: inherit;
+      display: inline-block;
+      margin-right: 0.25em;
+    }
+    
+    .icon-shield::before { content: "🛡️"; }
+    .icon-library-big::before { content: "📚"; }
+    .icon-file-pdf::before { content: "📄"; }
+    .icon-image::before { content: "🖼️"; }
+    .icon-video::before { content: "🎬"; }
+    .icon-file-text::before { content: "📝"; }
+    .icon-download::before { content: "⬇️"; }
+    .icon-eye::before { content: "👁️"; }
+    .icon-inbox::before { content: "📭"; }
+    
+    /* Pour les éléments qui utilisaient data-lucide */
+    [data-lucide="shield"]::before {
+      content: "🛡️";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="library-big"]::before {
+      content: "📚";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="file-pdf"]::before,
+    [data-lucide="file-text"]::before {
+      content: "📄";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="image"]::before {
+      content: "🖼️";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="video"]::before {
+      content: "🎬";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="download"]::before {
+      content: "⬇️";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="eye"]::before {
+      content: "👁️";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    [data-lucide="inbox"]::before {
+      content: "📭";
+      font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+    }
+    
+    /* Footer ajouté */
+    .footer {
+      background-color: #1f2937;
+      color: #f9fafb;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      text-align: center;
+      border-top: 1px solid #374151;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    .footer-logo {
+      font-weight: bold;
+      color: #60a5fa;
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer-copyright {
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+    
+    /* Styles pour les boutons d'action */
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .download-btn {
+      background-color: #6366f1;
+      color: white;
+    }
+    
+    .download-btn:hover {
+      background-color: #4f46e5;
+    }
+    
+    .view-btn {
+      background-color: #10b981;
+      color: white;
+    }
+    
+    .view-btn:hover {
+      background-color: #059669;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .text-6xl { font-size: 2.5rem; }
+      .text-2xl { font-size: 1.25rem; }
+      .px-6 { padding-left: 1rem; padding-right: 1rem; }
+      .grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .action-buttons {
+        flex-direction: column;
+      }
+      .action-btn {
+        width: 100%;
+        justify-content: center;
       }
     }
-  </script>
-  <style>
-    .hero-bg {
-      background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #db2777 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
-      opacity: 0.2;
-    }
-    .floating-element {
-      animation: float 6s ease-in-out infinite;
-    }
-    .card-hover {
-      transition: all 0.3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .text-gradient {
-      background: linear-gradient(135deg, #3B82F6, #8B5CF6, #EC4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .girls-learning {
-      background-image: url('https://images.unsplash.com/photo-1590650213165-c1f7771f4d73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-    .girls-learning::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3));
-      mix-blend-mode: multiply;
+    
+    @media (max-width: 480px) {
+      .grid-cols-4 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .text-6xl { font-size: 2rem; }
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
 
-  <!-- Bannière Hero avec jeunes africains joyeux en train d'apprendre -->
-  <header class="hero-bg text-white relative">
-    <!-- Pattern overlay -->
-    <div class="absolute inset-0 bg-grid-white/10 bg-grid opacity-10"></div>
-    
-    <!-- Éléments décoratifs flottants -->
-    <div class="absolute top-10 left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-xl"></div>
-    <div class="absolute bottom-20 right-10 w-40 h-40 bg-pink-500/20 rounded-full blur-xl"></div>
-    <div class="absolute top-1/3 right-1/4 w-16 h-16 bg-blue-500/20 rounded-full blur-lg"></div>
-    
-    <div class="relative max-w-7xl mx-auto px-6 py-16 md:py-24">
-      <!-- Bouton Admin -->
-      <div class="absolute top-6 right-6 z-10">
-        <a href="/admin/login" class="glass-effect text-white px-6 py-3 rounded-full font-semibold hover:bg-white/20 transition-all duration-300 flex items-center gap-2 group shadow-lg">
-          <i data-lucide="shield" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
-          <span>Espace Admin</span>
+  <!-- Bannière Hero -->
+  <header class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-40"></div>
+    <div class="absolute inset-0 bg-grid-white/10 bg-grid"></div>
+    <div class="relative max-w-7xl mx-auto px-6 py-24 text-center">
+      <div class="absolute top-4 right-4">
+        <a href="/admin/login" class="bg-white/20 backdrop-blur-md text-white px-6 py-3 rounded-full font-bold hover:bg-white/30 transition flex items-center gap-2">
+          <span class="icon-shield"></span> Admin
         </a>
       </div>
-
-      <!-- Contenu principal -->
-      <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
-        <!-- Texte -->
-        <div class="lg:w-1/2 text-center lg:text-left animate-slide-up">
-          <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-            <i data-lucide="sparkles" class="w-5 h-5"></i>
-            <span class="text-sm font-semibold">Savoir Sans Frontières</span>
-          </div>
-          
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Bibliothèque <span class="text-gradient">Numérique</span>  
-          </h1>
-          
-          <p class="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
-            Une plateforme d'excellence dédiée à l'autonomisation de la jeunesse africaine. 
-            Accédez à des ressources éducatives de qualité, développez vos compétences, 
-            devenez les leaders de demain.
-          </p>
-          
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <a href="#ressources" class="inline-flex items-center justify-center gap-3 bg-white text-primary px-8 py-4 rounded-full text-lg font-bold hover:shadow-2xl transform hover:scale-105 transition-all duration-300 shadow-lg group">
-              <i data-lucide="book-open" class="w-6 h-6 group-hover:rotate-12 transition-transform"></i>
-              <span>Commencer à Apprendre</span>
-            </a>
-            <a href="#" class="inline-flex items-center justify-center gap-3 glass-effect px-8 py-4 rounded-full text-lg font-semibold hover:bg-white/30 transition-all duration-300">
-              <i data-lucide="users" class="w-6 h-6"></i>
-              <span>Rejoindre la Communauté</span>
-            </a>
-          </div>
-          
-          <!-- Stats -->
-          <div class="flex flex-wrap gap-6 mt-12 justify-center lg:justify-start">
-            <div class="text-center">
-              <div class="text-3xl font-bold stat-number">5000+</div>
-              <div class="text-white/80">Jeunes Inscrits</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold">1000+</div>
-              <div class="text-white/80">Ressources Éducatives</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold">24/7</div>
-              <div class="text-white/80">Accès Gratuit</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Image des jeunes -->
-        <div class="lg:w-1/2 relative">
-          <div class="relative floating-element">
-            <!-- Image principale - Jeunes africains souriants en train d'apprendre -->
-            <div class="relative rounded-3xl overflow-hidden shadow-2xl girls-learning h-[500px]">
-              <!-- Overlay gradient -->
-              <div class="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent"></div>
-              
-              <!-- Éléments décoratifs sur l'image -->
-              <div class="absolute bottom-10 left-10 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl max-w-xs">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
-                    <i data-lucide="award" class="w-6 h-6 text-white"></i>
-                  </div>
-                  <div>
-                    <p class="text-sm font-bold text-gray-800">Excellence Académique</p>
-                    <p class="text-xs text-gray-600">Nos jeunes brillent</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Éléments flottants autour de l'image -->
-            <div class="absolute -top-6 -left-6 w-24 h-24 bg-primary rounded-full flex items-center justify-center shadow-xl">
-              <i data-lucide="graduation-cap" class="w-12 h-12 text-white"></i>
-            </div>
-            <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-xl">
-              <i data-lucide="brain" class="w-10 h-10 text-white"></i>
-            </div>
-            <div class="absolute top-1/2 -right-12 glass-effect p-4 rounded-2xl shadow-lg">
-              <i data-lucide="star" class="w-8 h-8 text-yellow-400"></i>
-            </div>
-            
-            <!-- Citation inspirante -->
-            <div class="absolute -left-20 top-1/3 glass-effect p-6 rounded-2xl shadow-xl max-w-xs hidden lg:block">
-              <i data-lucide="quote" class="w-8 h-8 text-white/70 mb-2"></i>
-              <p class="text-white/90 text-sm italic">"La jeunesse est l'avenir de l'Afrique"</p>
-            </div>
-          </div>
-          
-          <!-- Petites images supplémentaires -->
-          <div class="flex gap-4 mt-8 justify-center lg:justify-start">
-            <div class="w-16 h-16 rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                   alt="Jeune africain souriant" class="w-full h-full object-cover">
-            </div>
-            <div class="w-16 h-16 rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                   alt="Groupe de jeunes" class="w-full h-full object-cover">
-            </div>
-            <div class="w-16 h-16 rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <img src="https://images.unsplash.com/photo-1551836026-d5c2c5af78e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                   alt="Jeune avec ordinateur" class="w-full h-full object-cover">
-            </div>
-            <div class="w-16 h-16 rounded-xl overflow-hidden border-4 border-white shadow-lg">
-              <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" 
-                   alt="Jeune lisant" class="w-full h-full object-cover">
-            </div>
-          </div>
+      <div class="flex justify-center mb-8">
+        <div class="bg-white/20 backdrop-blur-md p-8 rounded-full">
+          <span class="icon-library-big" style="font-size: 6rem;"></span>
         </div>
       </div>
+      <h1 class="text-6xl font-bold mb-6">Bibliothèque Numérique</h1>
+      <p class="text-2xl mb-10 max-w-3xl mx-auto">Accédez à tous vos documents, vidéos, cours et ressources en un seul clic. Partage local · 100% hors ligne</p>
+      <a href="#ressources" class="inline-flex bg-white text-primary px-10 py-5 rounded-full text-xl font-bold hover:shadow-2xl transform hover:scale-105 transition">
+        Explorer les ressources
+      </a>
     </div>
-    
-    <!-- Wave separator -->
-    <div class="absolute bottom-0 left-0 right-0">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill="#F9FAFB" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-      </svg>
-    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent"></div>
   </header>
 
-  <main id="ressources" class="max-w-7xl mx-auto px-6 py-16 relative -mt-1">
-    <!-- Messages flash améliorés -->
+  <main id="ressources" class="max-w-7xl mx-auto px-6 py-16">
+    <!-- Messages flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <div class="mb-12 space-y-4">
+        <div class="mb-8">
           {% for category, message in messages %}
-            <div class="animate-slide-up">
-              <div class="{% if category == 'success' %}bg-gradient-to-r from-green-100 to-emerald-50 border-green-200 text-green-800{% else %}bg-gradient-to-r from-red-100 to-pink-50 border-red-200 text-red-800{% endif %} border-2 px-6 py-4 rounded-2xl shadow-lg flex items-center gap-3">
-                <i data-lucide="{% if category == 'success' %}check-circle{% else %}alert-circle{% endif %}" class="w-6 h-6"></i>
-                <span class="font-semibold">{{ message }}</span>
-              </div>
+            <div class="bg-{{ 'green' if category == 'success' else 'red' }}-100 border-{{ 'green' if category == 'success' else 'red' }}-400 text-{{ 'green' if category == 'success' else 'red' }}-700 px-4 py-3 rounded relative" role="alert">
+              <span class="block sm:inline">{{ message }}</span>
             </div>
           {% endfor %}
         </div>
       {% endif %}
     {% endwith %}
 
-    <!-- En-tête de section inclusif -->
-    <div class="text-center mb-16">
-      <div class="inline-flex items-center gap-3 bg-primary/10 border-2 border-primary/20 px-6 py-3 rounded-full mb-6">
-        <i data-lucide="users" class="w-6 h-6 text-primary"></i>
-        <span class="text-primary font-semibold">Dédié à la Jeunesse Africaine</span>
-      </div>
-      <h2 class="text-4xl md:text-5xl font-bold mb-6 text-gradient">Ressources Éducatives</h2>
-      <p class="text-gray-600 text-xl max-w-3xl mx-auto">
-        Une collection spécialement conçue pour l'épanouissement académique de la jeunesse africaine
-      </p>
-    </div>
-
-    <!-- Filtres améliorés -->
-    <div class="flex flex-wrap justify-center gap-3 mb-16">
-      <a href="/" class="px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-full font-bold hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-lg">
-        <i data-lucide="grid" class="w-5 h-5"></i>
-        <span>Toutes les catégories</span>
-      </a>
+    <!-- Filtres -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+      <a href="/" class="px-8 py-4 bg-primary text-white rounded-full font-bold hover:bg-indigo-700 transition text-lg">Tous</a>
       {% for cat in categories %}
-        <a href="/?cat={{ cat.id }}" 
-           class="px-8 py-4 glass-effect text-gray-700 rounded-full font-semibold hover:bg-white hover:shadow-lg transition-all duration-300 flex items-center gap-2 group">
-          <i data-lucide="folder" class="w-5 h-5 group-hover:text-primary transition-colors"></i>
-          <span>{{ cat.name }}</span>
-          <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
-            {{ cat.resource_count if cat.resource_count else '0' }}
-          </span>
-        </a>
+        <a href="/?cat={{ cat.id }}" class="px-8 py-4 bg-white border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition text-lg">{{ cat.name }}</a>
       {% endfor %}
     </div>
 
-    <!-- Grille de ressources améliorée -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    <!-- Grille - Réduite : grid-cols-4 au lieu de 3, padding réduit -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {% for r in resources %}
-      <div class="card-hover bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
-        <!-- En-tête de la carte -->
-        <div class="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-2">
+        <div class="h-32 flex items-center justify-center bg-gradient-to-br from-primary to-purple-600">
           {% if r.file_type == 'pdf' %}
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
-                <i data-lucide="file-text" class="w-12 h-12 text-white"></i>
-              </div>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent"></div>
+            <iframe src="/view/{{ r.id }}" class="w-full h-full" frameborder="0"></iframe>
           {% elif r.file_type == 'image' %}
             <img src="/view/{{ r.id }}" class="w-full h-full object-cover" alt="{{ r.title }}">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
           {% elif r.file_type == 'video' %}
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-20 h-20 bg-accent rounded-full flex items-center justify-center shadow-lg">
-                <i data-lucide="play" class="w-12 h-12 text-white"></i>
-              </div>
-            </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-accent/20 to-transparent"></div>
+            <video class="w-full h-full object-cover" controls>
+              <source src="/view/{{ r.id }}" type="video/{{ r.filename.split('.')[-1].lower() }}">
+            </video>
           {% else %}
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-20 h-20 bg-gray-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <i data-lucide="file" class="w-12 h-12 text-white"></i>
-              </div>
-            </div>
+            <span class="icon-file-text" style="font-size: 4rem; color: white; opacity: 0.9;"></span>
           {% endif %}
-          
-          <!-- Badge de catégorie -->
-          <div class="absolute top-4 left-4">
-            <span class="px-4 py-2 bg-white/90 backdrop-blur-sm text-primary rounded-full text-xs font-bold shadow-sm">
-              {{ r.category.name }}
-            </span>
-          </div>
-          
-          <!-- Type de fichier -->
-          <div class="absolute top-4 right-4">
-            <span class="px-3 py-1 bg-black/70 text-white rounded-full text-xs font-bold">
-              {{ r.file_type|upper }}
-            </span>
-          </div>
-          
-          <!-- Badge recommandé -->
-          <div class="absolute bottom-4 left-4">
-            <span class="px-3 py-1 bg-primary/90 text-white rounded-full text-xs font-bold flex items-center gap-1">
-              <i data-lucide="star" class="w-3 h-3"></i>
-              Recommandé
-            </span>
-          </div>
         </div>
-        
-        <!-- Corps de la carte -->
-        <div class="p-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-2 truncate">{{ r.title }}</h3>
-          <p class="text-gray-600 mb-4 text-sm line-clamp-2 h-10">
-            {{ r.description or "Aucune description disponible" }}
-          </p>
+        <div class="p-4">
+          <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold">{{ r.category.name }}</span>
+          <h3 class="text-lg font-bold mt-2 truncate">{{ r.title }}</h3>
+          <p class="text-gray-600 mt-1 text-sm line-clamp-2">{{ r.description or "Aucune description" }}</p>
           
-          <!-- Métadonnées CORRIGÉES -->
-          <div class="flex items-center gap-4 text-sm text-gray-500 mb-6">
-            {% if r.upload_date %}
-            <div class="flex items-center gap-1">
-              <i data-lucide="calendar" class="w-4 h-4"></i>
-              <span>{{ r.upload_date.strftime('%d/%m/%Y') }}</span>
-            </div>
-            {% endif %}
-            
-            {% if r.download_count and r.download_count > 0 %}
-            <div class="flex items-center gap-1">
-              <i data-lucide="download" class="w-4 h-4"></i>
-              <span>{{ r.download_count }} téléch.</span>
-            </div>
-            {% endif %}
-          </div>
-          
-          <!-- Actions -->
-          <div class="flex gap-3">
-            <a href="{{ url_for('download', resource_id=r.id) }}" 
-               class="flex-1 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300 group">
-              <i data-lucide="download" class="w-5 h-5 group-hover:animate-bounce"></i>
-              <span>Télécharger</span>
+          <!-- Boutons d'action ajoutés ici -->
+          <div class="action-buttons">
+            <a href="{{ url_for('view', resource_id=r.id) }}" class="action-btn view-btn">
+              <span class="icon-eye"></span> Voir
             </a>
-            <button onclick="previewResource('{{ r.id }}')"
-                    class="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
-              <i data-lucide="eye" class="w-5 h-5"></i>
-            </button>
+            <a href="{{ url_for('download', resource_id=r.id) }}" class="action-btn download-btn">
+              <span class="icon-download"></span> Télécharger
+            </a>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
 
-    <!-- Message vide amélioré -->
     {% if resources|length == 0 %}
-    <div class="text-center py-20">
-      <div class="max-w-md mx-auto">
-        <div class="w-32 h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <i data-lucide="book-open" class="w-20 h-20 text-primary"></i>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-500 mb-4">Aucune ressource disponible</h3>
-        <p class="text-gray-400 mb-8">Les ressources apparaîtront ici une fois ajoutées par l'administrateur.</p>
-        <a href="#" class="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold">
-          <i data-lucide="refresh-cw" class="w-5 h-5"></i>
-          <span>Actualiser la page</span>
-        </a>
-      </div>
+    <div class="text-center py-24">
+      <span class="icon-inbox" style="font-size: 8rem; color: #d1d5db; display: block; margin: 0 auto 1.5rem;"></span>
+      <p class="text-3xl text-gray-500">Aucun contenu disponible pour le moment</p>
     </div>
     {% endif %}
   </main>
 
-  <!-- Footer amélioré inclusif -->
-  <footer class="bg-gradient-to-b from-gray-50 to-gray-100 border-t border-gray-200 mt-20">
-    <div class="max-w-7xl mx-auto px-6 py-12">
-      <div class="grid md:grid-cols-3 gap-12">
-        <div>
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
-              <i data-lucide="library-big" class="w-8 h-8 text-white"></i>
-            </div>
-            <span class="text-2xl font-bold text-gradient">BiblioNumérique</span>
-          </div>
-          <p class="text-gray-600 mb-6">
-            Une initiative pour l'autonomisation de la jeunesse africaine à travers l'éducation numérique.
-          </p>
-          <div class="flex gap-4">
-            <a href="#" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:shadow-md transition-shadow hover:bg-primary/10">
-              <i data-lucide="facebook" class="w-5 h-5 text-primary"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:shadow-md transition-shadow hover:bg-primary/10">
-              <i data-lucide="twitter" class="w-5 h-5 text-primary"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:shadow-md transition-shadow hover:bg-primary/10">
-              <i data-lucide="instagram" class="w-5 h-5 text-primary"></i>
-            </a>
-          </div>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-bold text-gray-800 mb-6">Catégories Populaires</h4>
-          <ul class="space-y-3">
-            {% for cat in categories[:5] %}
-            <li>
-              <a href="/?cat={{ cat.id }}" class="text-gray-600 hover:text-primary transition-colors flex items-center gap-2">
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                {{ cat.name }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-bold text-gray-800 mb-6">Contact & Support</h4>
-          <ul class="space-y-4">
-            <li class="flex items-center gap-3 text-gray-600">
-              <i data-lucide="mail" class="w-5 h-5 text-primary"></i>
-              <span>contact@bibliomumerique.africa</span>
-            </li>
-            <li class="flex items-center gap-3 text-gray-600">
-              <i data-lucide="phone" class="w-5 h-5 text-primary"></i>
-              <span>+226 25 49 13 00</span>
-            </li>
-            <li class="flex items-center gap-3 text-gray-600">
-              <i data-lucide="map-pin" class="w-5 h-5 text-primary"></i>
-              <span>Ouagadougou, Burkina Faso</span>
-            </li>
-          </ul>
-        </div>
+  <!-- FOOTER AJOUTÉ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="mb-4">
+        <p class="footer-logo">propulsée par UNFPA</p>
       </div>
-      
-      <!-- Citation inspirante en bas -->
-      <div class="mt-12 pt-8 border-t border-gray-200">
-        <div class="max-w-2xl mx-auto text-center">
-          <i data-lucide="quote" class="w-8 h-8 text-primary/70 mx-auto mb-4"></i>
-          <p class="text-gray-700 text-lg italic">
-            "L'éducation est l'arme la plus puissante que vous pouvez utiliser pour changer le monde."
-          </p>
-          <p class="text-gray-500 mt-2">- Nelson Mandela</p>
-        </div>
-      </div>
-      
-      <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-500">
-        <p>&copy; 2024 Bibliothèque Numérique Africaine. Tous droits réservés.</p>
-        <p class="mt-2 text-sm">Propulsé par UNFPA Burkina Faso</p>
+      <div>
+        <p class="footer-copyright">© 2025 Bibliothèque Numérique</p>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/lucide@latest"></script>
   <script>
-    lucide.createIcons();
-    
-    function previewResource(id) {
-      window.open(`/view/${id}`, '_blank');
-    }
-    
-    // Animation au scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-slide-up');
-        }
+    // JavaScript minimal pour les interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth scroll pour le bouton "Explorer les ressources"
+      const exploreBtn = document.querySelector('a[href="#ressources"]');
+      if (exploreBtn) {
+        exploreBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('ressources');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+      
+      // Animation des cartes au chargement
+      const cards = document.querySelectorAll('.bg-white.rounded-2xl');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.5s, transform 0.5s';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 100 * index);
       });
-    }, observerOptions);
-    
-    document.querySelectorAll('.card-hover').forEach(card => {
-      observer.observe(card);
     });
   </script>
 </body>
