@@ -223,7 +223,7 @@ server {
     server_name bangre.com www.bangre.local;
     
     location /uploads/ {
-        alias /home/dietpi/bangre/uploads/;
+        alias /home/pi/bangre/uploads/;
     }
     
     location ~ \.php$ {
@@ -268,7 +268,7 @@ log "=== Étape 4: Configuration du service systemd ==="
 
 # Créer les répertoires de logs
 log "Création des répertoires de logs..."
-mkdir -p /home/dietpi/logs
+mkdir -p /home/pi/logs
 check_status "Répertoires de logs créés"
 
 # Créer le service
@@ -282,11 +282,11 @@ After=network.target
 
 [Service]
 Type=simple
-User=dietpi
-Group=dietpi
-WorkingDirectory=/home/dietpi/bangre
-Environment="PATH=/home/dietpi/bangre/venv/bin"
-ExecStart=/home/dietpi/bangre/venv/bin/gunicorn --bind 127.0.0.1:5000 --workers 2 --access-logfile /home/dietpi/logs/gunicorn_access.log --error-logfile /home/dietpi/logs/gunicorn_error.log --log-level info app:app
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/bangre
+Environment="PATH=/home/pi/bangre/venv/bin"
+ExecStart=/home/pi/bangre/venv/bin/gunicorn --bind 127.0.0.1:5000 --workers 2 --access-logfile /home/pi/logs/gunicorn_access.log --error-logfile /home/pi/logs/gunicorn_error.log --log-level info app:app
 Restart=always
 RestartSec=10
 
@@ -300,7 +300,7 @@ check_status "Service systemd créé"
 log "=== Étape 5: Configuration de l'application Python ==="
 
 # Vérifier l'existence du répertoire de l'application
-app_dir="/home/dietpi/bangre"
+app_dir="/home/pi/bangre"
 if [ ! -d "$app_dir" ]; then
     log "⚠ Le répertoire $app_dir n'existe pas"
     log "Création du répertoire..."
@@ -404,7 +404,7 @@ echo "  sudo systemctl status app_bangre.service"
 echo "  sudo systemctl status nginx"
 echo ""
 echo "FICHIERS DE LOGS:"
-echo "  Application: /home/dietpi/logs/gunicorn_*.log"
+echo "  Application: /home/pi/logs/gunicorn_*.log"
 echo "  Nginx: /var/log/nginx/app_bangre_*.log"
 echo ""
 echo "TEST DE L'APPLICATION:"
